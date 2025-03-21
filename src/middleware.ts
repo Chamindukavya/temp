@@ -6,11 +6,12 @@ export async function middleware(req: NextRequest) {
   console.log('Middleware triggered for:', req.nextUrl.pathname);
 
   // Get the token using NextAuth's utility
-  const token = await getToken({ 
-    req, 
-    secret: process.env.NEXTAUTH_SECRET, // Must match NextAuth's secret
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+    cookieName: 'next-auth.session-token', // Explicitly specify cookie name
   });
-  console.log('Token:', token);
+  console.log('Decoded token:', token);
 
   if (!token) {
     console.log('No token, redirecting to login...');
