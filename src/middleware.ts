@@ -8,8 +8,8 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req });
   console.log('Token:', token);
 
-  if (!token) {
-    console.log('No token, redirecting to login...');
+  if (token === null) {
+    console.log('No token, redirecting to login...',token);
     const loginUrl = new URL('/login', req.nextUrl.origin);
     loginUrl.searchParams.set('callbackUrl', req.nextUrl.href);
     return NextResponse.redirect(loginUrl);
