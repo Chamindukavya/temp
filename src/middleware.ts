@@ -5,10 +5,11 @@ import { getToken } from 'next-auth/jwt';
 export async function middleware(req: NextRequest) {
   console.log('Middleware triggered for:', req.nextUrl.pathname);
 
-  const token = await getToken({ req });
+  // const token = await getToken({ req }); 
+  const token = req.cookies.get('next-auth.session-token')?.value || ''
   console.log('Token:', token);
 
-  if (token === null) {
+  if (!token) {
     console.log('No token, redirecting to login...',token);
     const loginUrl = new URL('/login', req.nextUrl.origin);
     loginUrl.searchParams.set('callbackUrl', req.nextUrl.href);
